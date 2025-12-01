@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Orders.Application.Interfaces;
 using Orders.Application.Services;
 using Orders.Domain.IRepositories;
 using Orders.Infrastructure.Cashe;
@@ -22,6 +23,7 @@ namespace Orders.Api.Extentions
             // Redis
             services.AddSingleton<IConnectionMultiplexer>(sp =>
                 ConnectionMultiplexer.Connect(redisConnection));
+            services.AddScoped<IOrderService, OrderService>();
 
             services.AddScoped<ICashService, RedisCacheService>();
 

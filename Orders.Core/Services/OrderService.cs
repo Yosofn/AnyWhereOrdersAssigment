@@ -1,4 +1,5 @@
 ﻿using Orders.Application.DTOs;
+using Orders.Application.Interfaces;
 using Orders.Domain.Entities;
 using Orders.Domain.IRepositories;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Orders.Application.Services
 {
-    public class OrderService
+    public class OrderService: IOrderService
     {
         private readonly IOrderRepository _repo;
 
