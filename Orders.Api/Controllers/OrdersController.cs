@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Orders.Application.DTOs;
+using Orders.Application.Interfaces;
 using Orders.Application.Services;
 using Orders.Domain.Entities;
 using Orders.Infrastructure.Cashe;
@@ -11,10 +12,10 @@ namespace Orders.Api.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly OrderService _orderService;
+        private readonly IOrderService _orderService;
         private readonly ICashService _cache;
 
-        public OrdersController(OrderService orderService, ICashService cache)
+        public OrdersController(IOrderService orderService, ICashService cache)
         {
             _orderService = orderService;
             _cache = cache;
@@ -56,8 +57,8 @@ namespace Orders.Api.Controllers
             const string cacheKey = "orders:list";
 
             var cachedOrders = await _cache.GetAsync<IEnumerable<Order>>(cacheKey);
-            if (cachedOrders != null)
-                return Ok(new ApiResponse<IEnumerable<Order>>(cachedOrders, "Orders list retrieved from cache"));
+          if (cachedOrders != null)
+           return Ok(new ApiResponse<IEnumerable<Order>>(cachedOrders, "Orders list retrieved from cache"));
 
             var orders = await _orderService.ListOrdersAsync();
 
